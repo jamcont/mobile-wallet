@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import moment from "moment";
 import { Observable, of } from "rxjs";
 import { switchMap } from "rxjs/operators";
-import { LoginConfig } from "../login.config";
+import { LoginConfig } from "./login.config";
 
 @Injectable()
 export class LoginService {

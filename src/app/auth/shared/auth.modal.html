@@ -1,0 +1,6 @@
+<auth-pin
+	[isBlocked]="(isBlocked$ | async)"
+	[unlockDate]="(state$ | async).unlockDate"
+	(authorized)="authorized()"
+	(failed)="failed()"
+></auth-pin>

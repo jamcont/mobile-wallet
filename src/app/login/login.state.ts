@@ -1,4 +1,3 @@
-import { AuthActions } from "@/app/auth/shared/auth.actions";
 import {
 	Action,
 	NgxsOnInit,
@@ -7,9 +6,9 @@ import {
 	StateToken,
 } from "@ngxs/store";
 import { Observable } from "rxjs";
-import { switchMap, tap } from "rxjs/operators";
-import { LoginConfig } from "../login.config";
+import { tap } from "rxjs/operators";
 import { LoginActions } from "./login.actions";
+import { LoginConfig } from "./login.config";
 import { LoginService } from "./login.service";
 import { LoginStateModel } from "./login.type";
 
@@ -39,13 +38,9 @@ export class LoginState implements NgxsOnInit {
 		ctx: StateContext<LoginStateModel>,
 		action: LoginActions.Login,
 	): Observable<void> {
-		return ctx.dispatch(new AuthActions.Request()).pipe(
-			switchMap(() => {
-				return this.loginService.login(action.id).pipe(
-					tap(() => {
-						ctx.setState({ id: action.id });
-					}),
-				);
+		return this.loginService.login(action.id).pipe(
+			tap(() => {
+				ctx.setState({ id: action.id });
 			}),
 		);
 	}

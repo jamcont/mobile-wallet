@@ -4,8 +4,8 @@ import { Injectable } from "@angular/core";
 import moment from "moment";
 import { EMPTY, iif, Observable, of } from "rxjs";
 import { map, mapTo, switchMap, switchMapTo } from "rxjs/operators";
-import { AuthConfig } from "../auth.config";
-import { AuthPersistedData } from "./auth.type";
+import { AuthConfig } from "./auth.config";
+import { AuthPersistedData } from "./auth.types";
 
 @Injectable()
 export class AuthService {
@@ -39,7 +39,7 @@ export class AuthService {
 
 	public reset(): Observable<void> {
 		return this.storageService
-			.set(AuthConfig.STORAGE_UNLOCK_TIMESTAMP, null)
+			.set(AuthConfig.STORAGE_UNLOCK_TIMESTAMP, undefined)
 			.pipe(
 				switchMap(() =>
 					this.storageService.set(AuthConfig.STORAGE_ATTEMPTS, 0),

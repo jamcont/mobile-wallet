@@ -1,5 +1,4 @@
 export namespace AuthPinConfig {
-	export const TOKEN = "auth_pin";
 	export const STORAGE_MASTERPASSWORD = "masterpassword";
 	export const WEAK_PASSWORD = [
 		"000000",

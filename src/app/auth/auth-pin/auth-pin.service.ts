@@ -3,7 +3,7 @@ import { Injectable } from "@angular/core";
 import { compare as bCompare, hash as bHash } from "bcryptjs";
 import { from, Observable } from "rxjs";
 import { map, switchMap } from "rxjs/operators";
-import { AuthPinConfig } from "./pin.config";
+import { AuthPinConfig } from "./auth-pin.config";
 
 @Injectable()
 export class AuthPinService {

@@ -34,8 +34,8 @@ export class LoginPage implements OnInit {
 		});
 	}
 
-	openProfileSignin() {
-		this.authController.request().subscribe();
+	async openProfileSignin() {
+		this.authController.request().subscribe(x => console.log(x));
 	}
 
 	openProfileCreate() {

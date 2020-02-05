@@ -9,10 +9,10 @@ import {
 } from "@ngxs/store";
 import { Observable } from "rxjs";
 import { switchMapTo, tap } from "rxjs/operators";
-import { AuthConfig } from "../auth.config";
-import { AuthActions, AuthEvents } from "./auth.actions";
+import { AuthActions } from "./auth.actions";
+import { AuthConfig } from "./auth.config";
 import { AuthService } from "./auth.service";
-import { AuthStateModel } from "./auth.type";
+import { AuthStateModel } from "./auth.types";
 
 export const AUTH_STATE_TOKEN = new StateToken<AuthStateModel>(
 	AuthConfig.TOKEN,
@@ -46,32 +46,17 @@ export class AuthState implements NgxsOnInit {
 		);
 	}
 
-	@Action(AuthActions.Authorize)
-	public authorize(ctx: StateContext<AuthStateModel>): Observable<void> {
-		return this.authService
-			.reset()
-			.pipe(
-				switchMapTo(
-					ctx.dispatch([AuthActions.Dismiss, AuthEvents.Authorized]),
-				),
-			);
-	}
-
-	@Action(AuthActions.Deny)
-	public deny(ctx: StateContext<AuthStateModel>): Observable<void> {
-		return ctx.dispatch([AuthActions.Dismiss, AuthEvents.Denied]);
-	}
-
-	@Action(AuthActions.Request)
-	public request(ctx: StateContext<AuthStateModel>): void {
-		ctx.patchState({
-			isPending: true,
-		});
-	}
-
 	@Action(AuthActions.Dismiss)
 	public dismiss(ctx: StateContext<AuthStateModel>): void {
-		ctx.setState(defaultState);
+		ctx.patchState({ isPending: false, method: undefined });
+	}
+
+	@Action(AuthActions.Authorize)
+	public authorize(ctx: StateContext<AuthStateModel>): Observable<void> {
+		return this.authService.reset().pipe(
+			tap(() => ctx.patchState({ attempts: 0, unlockDate: undefined })),
+			switchMapTo(VOID),
+		);
 	}
 
 	@Action(AuthActions.IncreaseAttempts)
@@ -98,6 +83,7 @@ export class AuthState implements NgxsOnInit {
 		action: AuthActions.SetMethod,
 	): void {
 		ctx.patchState({
+			isPending: true,
 			method: action.method,
 		});
 	}
