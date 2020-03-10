@@ -1,4 +1,4 @@
-import { Injectable } from "@angular/core";
+import { EventEmitter, Injectable } from "@angular/core";
 import { Keyboard } from "@ionic-native/keyboard/ngx";
 import { Network } from "@ionic-native/network/ngx";
 import { QRScanner, QRScannerStatus } from "@ionic-native/qr-scanner/ngx";
@@ -6,6 +6,16 @@ import { ScreenOrientation } from "@ionic-native/screen-orientation/ngx";
 import { SocialSharing } from "@ionic-native/social-sharing/ngx";
 import { SplashScreen } from "@ionic-native/splash-screen/ngx";
 import { StatusBar } from "@ionic-native/status-bar/ngx";
+import {
+	DefaultLangChangeEvent,
+	LangChangeEvent,
+	MissingTranslationHandler,
+	TranslateCompiler,
+	TranslateLoader,
+	TranslateParser,
+	TranslateStore,
+	TranslationChangeEvent,
+} from "@ngx-translate/core";
 import { Delegate, Network as ArkNetwork } from "ark-ts";
 import { Observable, Subject } from "rxjs";
 
@@ -256,6 +266,129 @@ export class UserDataProviderMock implements UserDataService {
 		throw new Error("Method not implemented.");
 	}
 	public getKeysByWallet(wallet: Wallet, password: string): WalletKeys {
+		throw new Error("Method not implemented.");
+	}
+}
+
+@Injectable()
+export class TranslateServiceMock {
+	store: TranslateStore;
+	currentLoader: TranslateLoader;
+	compiler: TranslateCompiler;
+	parser: TranslateParser;
+	missingTranslationHandler: MissingTranslationHandler;
+	defaultLang: string;
+	currentLang: string;
+	langs: string[];
+	translations: any;
+
+	readonly onTranslationChange: EventEmitter<TranslationChangeEvent>;
+	readonly onLangChange: EventEmitter<LangChangeEvent>;
+	readonly onDefaultLangChange: EventEmitter<DefaultLangChangeEvent>;
+
+	private useDefaultLang;
+	private isolate;
+	private extend;
+	private loadingTranslations;
+	private pending;
+	private _onTranslationChange;
+	private _onLangChange;
+	private _onDefaultLangChange;
+	private _defaultLang;
+	private _currentLang;
+	private _langs;
+	private _translations;
+	private _translationRequests;
+	private updateLangs;
+	private retrieveTranslations;
+	private changeLang;
+	private changeDefaultLang;
+
+	setDefaultLang(lang: string): void {
+		throw new Error("Method not implemented.");
+	}
+
+	getDefaultLang(): string {
+		throw new Error("Method not implemented.");
+	}
+
+	use(lang: string): Observable<any> {
+		throw new Error("Method not implemented.");
+	}
+
+	getTranslation(lang: string): Observable<any> {
+		throw new Error("Method not implemented.");
+	}
+
+	setTranslation(
+		lang: string,
+		translations: Record<string, any>,
+		shouldMerge?: boolean,
+	): void {
+		throw new Error("Method not implemented.");
+	}
+
+	getLangs(): Array<string> {
+		throw new Error("Method not implemented.");
+	}
+
+	addLangs(langs: Array<string>): void {
+		throw new Error("Method not implemented.");
+	}
+
+	getParsedResult(
+		translations: any,
+		key: any,
+		interpolateParams?: Record<string, any>,
+	): any {
+		throw new Error("Method not implemented.");
+	}
+
+	get(
+		key: string | Array<string>,
+		interpolateParams?: Record<string, any>,
+	): Observable<string | any> {
+		throw new Error("Method not implemented.");
+	}
+
+	getStreamOnTranslationChange(
+		key: string | Array<string>,
+		interpolateParams?: Record<string, any>,
+	): Observable<string | any> {
+		throw new Error("Method not implemented.");
+	}
+
+	stream(
+		key: string | Array<string>,
+		interpolateParams?: Record<string, any>,
+	): Observable<string | any> {
+		throw new Error("Method not implemented.");
+	}
+
+	instant(
+		key: string | Array<string>,
+		interpolateParams?: Record<string, any>,
+	): string | any {
+		throw new Error("Method not implemented.");
+	}
+
+	set(key: string, value: string, lang?: string): void {
+		throw new Error("Method not implemented.");
+	}
+
+	reloadLang(lang: string): Observable<any> {
+		throw new Error("Method not implemented.");
+	}
+
+	resetLang(lang: string): void {
+		throw new Error("Method not implemented.");
+	}
+
+	public getBrowserLang(): string {
+		throw new Error("Method not implemented.");
+	}
+
+	public getBrowserCultureLang(): string {
 		throw new Error("Method not implemented.");
 	}
 }
