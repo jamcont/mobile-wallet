@@ -1,0 +1,32 @@
+name: Test & Build
+on:
+  push:
+    branches:
+      - "**"
+  pull_request:
+    types: [ready_for_review, synchronize, opened]
+jobs:
+  unit:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        node-version: [12.x]
+    steps:
+      - uses: actions/checkout@v1
+      - name: Use Node.js ${{ matrix.node-version }}
+        uses: actions/setup-node@v1
+        with:
+          node-version: ${{ matrix.node-version }}
+      - name: Install
+        run: |
+          npm install -g @ionic/cli cordova
+          npm install -g cordova-res native-run
+          npm install --ignore-scripts
+          ionic cordova prepare
+      - name: Build
+        run: npm run build:android
+      - name: Uploading Artifacts
+        uses: actions/upload-artifact@v2-preview
+        with:
+          name: app-release-unsigned-${{ github.sha }}
+          path: ./platforms/android/app/build/outputs/apk/release/*
